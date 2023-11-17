@@ -1,99 +1,29 @@
 # Parcel template
 
-Этот проект был создан при помощи Parcel. Для знакомства и настройки
-дополнительных возможностей [обратись к документации](https://parceljs.org/).
+Asigură-te că pe PC este instalată versiunea LTS Node.js. Descarcă și instalează dacă este necesar.
 
-## Подготовка нового проекта
+Clonează acest repository: https://github.com/goitacademy/parcel-project-template
 
-1. Убедись что на компьютере установлена LTS-версия Node.js.
-   [Скачай и установи](https://nodejs.org/en/) её если необходимо.
-2. Склонируй этот репозиторий.
-3. Измени имя папки с `parcel-project-template` на имя своего проекта.
-4. Создай новый пустой репозиторий на GitHub.
-5. Открой проект в VSCode, запусти терминал и свяжи проект с GitHub-репозиторием
-   [по инструкции](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories#changing-a-remote-repositorys-url).
-6. Установи зависимости проекта в терминале командой `npm install` .
-7. Запусти режим разработки, выполнив команду `npm start`.
-8. Перейди в браузере по адресу [http://localhost:1234](http://localhost:1234).
-   Эта страница будет автоматически перезагружаться после сохранения изменений в
-   файлах проекта.
+In Explorer:
+-schimba numele repozitoriului clonat in numele temei tale (goit-js-hw-0x).
+-sterge folderul src.
+-pune noul folder src.
 
-## Файлы и папки
+Creează pe GitHub un repository nou și gol (fara readme). Nu lucra foarte rapid, nu te panica, ai rabdare cu GitHub-ul. Este, totusi, un server, undeva, care face si alte lucruri.
+Fa pe repozitoriul creat setarile din (vezi in) Implementare:
+1)Settings /Action /General /Read and write permissions
+2)Allow GitHub Actions...
 
-- Все паршалы файлов стилей должны лежать в папке `src/sass` и импортироваться в
-  файлы стилей страниц. Например, для `index.html` файл стилей называется
-  `index.scss`.
-- Изображения добавляй в папку `src/images`. Сборщик оптимизирует их, но только
-  при деплое продакшн версии проекта. Все это происходит в облаке, чтобы не
-  нагружать твой компьютер, так как на слабых машинах это может занять много
-  времени.
-
-## Деплой
-
-Для настройки деплоя проекта необходимо выполнить несколько дополнительных шагов
-по настройке твоего репозитория. Зайди во вкладку `Settings` и в подсекции
-`Actions` выбери выбери пункт `General`.
-
-![GitHub actions settings](./assets/actions-config-step-1.png)
-
-Пролистай страницу до последней секции, в которой убедись что выбраны опции как
-на следующем изображении и нажми `Save`. Без этих настроек у сборки будет
-недостаточно прав для автоматизации процесса деплоя.
-
-![GitHub actions settings](./assets/actions-config-step-2.png)
-
-Продакшн версия проекта будет автоматически собираться и деплоиться на GitHub
-Pages, в ветку `gh-pages`, каждый раз когда обновляется ветка `main`. Например,
-после прямого пуша или принятого пул-реквеста. Для этого необходимо в файле
-`package.json` отредактировать поле `homepage` и скрипт `build`, заменив
-`your_username` и `your_repo_name` на свои, и отправить изменения на GitHub.
-
-```json
-"homepage": "https://your_username.github.io/your_repo_name/",
-"scripts": {
-  "build": "parcel build src/*.html --public-url /your_repo_name/"
-},
-```
-
-Далее необходимо зайти в настройки GitHub-репозитория (`Settings` > `Pages`) и
-выставить раздачу продакшн версии файлов из папки `/root` ветки `gh-pages`, если
-это небыло сделано автоматически.
-
-![GitHub Pages settings](./assets/repo-settings.png)
-
-### Статус деплоя
-
-Статус деплоя крайнего коммита отображается иконкой возле его идентификатора.
-
-- **Желтый цвет** - выполняется сборка и деплой проекта.
-- **Зеленый цвет** - деплой завершился успешно.
-- **Красный цвет** - во время линтинга, сборки или деплоя произошла ошибка.
-
-Более детальную информацию о статусе можно посмотреть кликнув по иконке, и в
-выпадающем окне перейти по ссылке `Details`.
-
-![Deployment status](./assets/status.png)
-
-### Живая страница
-
-Через какое-то время, обычно пару минут, живую страницу можно будет посмотреть
-по адресу указанному в отредактированном свойстве `homepage`. Например, вот
-ссылка на живую версию для этого репозитория
-[https://goitacademy.github.io/parcel-project-template](https://goitacademy.github.io/parcel-project-template).
-
-Если открывается пустая страница, убедись что во вкладке `Console` нет ошибок
-связанных с неправильными путями к CSS и JS файлам проекта (**404**). Скорее
-всего у тебя неправильное значение свойства `homepage` или скрипта `build` в
-файле `package.json`.
-
-## Как это работает
-
-![How it works](./assets/how-it-works.png)
-
-1. После каждого пуша в ветку `main` GitHub-репозитория, запускается специальный
-   скрипт (GitHub Action) из файла `.github/workflows/deploy.yml`.
-2. Все файлы репозитория копируются на сервер, где проект инициализируется и
-   проходит сборку перед деплоем.
-3. Если все шаги прошли успешно, собранная продакшн версия файлов проекта
-   отправляется в ветку `gh-pages`. В противном случае, в логе выполнения
-   скрипта будет указано в чем проблема.
+Deschide proiectul în VSCode (Open Folder).
+modifica in fisierul package.json noul nume de proiect si username-ul tau de pe Github (vezi in Implementare).
+pornește Terminal și conectează proiectul cu repository-ul GitHub cu ajutorul comenzii:
+git remote set-url origin https://github.com/user_github-ul tau/numele temei tale.git
+Setează dependențele proiectului în Terminal cu ajutorul comenziilor:
+npm install
+npm audit fix
+npx update-browserslist-db@latest (va face update-ul la caniuse-lite, restul se pun la tema respectiva).
+Pornește modul dezvoltator prin rularea comenzii npm start.
+Accesează în browser pagina (Ctrl+) http://localhost:1234. Daca totul este ok:
+Se face Commit & Push nu conteaza de unde.
+Dupa 15 minute te duci pe GitHub si verifici /selectezi in Settings /Pages la Source branch-ul gh-pages /Save (vezi in Implementare).
+Verifici pagina Live. 
