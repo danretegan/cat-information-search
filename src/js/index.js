@@ -32,11 +32,11 @@ function hideError() {
 }
 
 function showLoader() {
-  loader.classList.remove('loader');
+  loader.style.display = 'block';
 }
 
 function hideLoader() {
-  loader.classList.add('loader');
+  loader.style.display = 'none';
 }
 
 function handleBreedsRequest() {

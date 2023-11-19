@@ -2,6 +2,8 @@ body {
   font-family: Arial, sans-serif;
 }
 
+
+
 .loader,
 .error {
   display: none;
@@ -39,3 +41,4 @@ body {
 .cat-info p strong {
   font-weight: bold; /* Stilizare pentru etichetele de text bold */
 }
+
