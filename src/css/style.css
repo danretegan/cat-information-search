@@ -1,0 +1,34 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.loader,
+.error {
+  display: none;
+}
+
+/* Stiluri pentru containerul imaginii și textului */
+.cat-info {
+  overflow: hidden; /* Asigură că containerul se mulează pe conținut */
+}
+
+/* Stiluri pentru imagine */
+.cat-info img {
+  float: left; /* Aliniază imaginea la stânga */
+  max-width: 300px; /* Definește lățimea maximă a imaginii */
+  height: auto; /* Permite imaginii să își mențină proporțiile */
+  border: 1px solid #ccc; /* Adaugă un cadru de 1px solid gri în jurul imaginii */
+  border-radius: 5px; /* Rotunjirea marginilor imaginii */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Adaugă umbrire */
+  margin: 10px 20px 10px 0; /* Spațiere pentru imagine (sus, dreapta, jos, stânga) */
+}
+
+/* Stiluri pentru paragrafele cu informații despre pisică */
+.cat-info p {
+  font-size: 16px; /* Mărimea fontului pentru informații */
+  margin-bottom: 8px; /* Spațiere între paragrafe */
+}
+
+.cat-info p strong {
+  font-weight: bold; /* Stilizare pentru etichetele de text bold */
+}
