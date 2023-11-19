@@ -1,8 +1,8 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
+import Notiflix from 'notiflix';
 
 const breedSelect = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
-const error = document.querySelector('.error');
 const catInfo = document.querySelector('.cat-info');
 
 function displayCatInfo(cat) {
@@ -11,24 +11,15 @@ function displayCatInfo(cat) {
   `;
   catInfo.classList.remove('loader');
 
-  // Așteaptă puțin înainte de a afișa detaliile pentru a oferi timp pentru încărcarea imaginii
   setTimeout(() => {
     const catDetails = document.createElement('div');
     catDetails.innerHTML = `
-      <p><strong> ${cat[0].breeds[0].name} </strong></p>
-      <p> ${cat[0].breeds[0].description}</p>
+      <p><strong>${cat[0].breeds[0].name}</strong></p>
+      <p>${cat[0].breeds[0].description}</p>
       <p><strong>Temperament:</strong> ${cat[0].breeds[0].temperament}</p>
     `;
     catInfo.appendChild(catDetails);
-  }, 500); // Un timp de așteptare de 0.5 secunde (500 milisecunde) - poate fi ajustat pentru performanță
-}
-
-function displayError() {
-  error.classList.remove('error');
-}
-
-function hideError() {
-  error.classList.add('error');
+  }, 500);
 }
 
 function showLoader() {
@@ -45,7 +36,6 @@ function handleBreedsRequest() {
   fetchBreeds()
     .then(breeds => {
       if (breeds.length === 0) {
-        // Tratează cazul în care nu există rase disponibile
         throw new Error('No breeds available');
       }
 
@@ -53,19 +43,19 @@ function handleBreedsRequest() {
 
       breedSelect.classList.remove('loader');
       hideLoader();
-      hideError();
     })
     .catch(() => {
+      Notiflix.Notify.failure(
+        'Oops! Something went wrong! Try reloading the page!'
+      );
       hideLoader();
-      displayError();
     });
 }
 
 function handleCatRequest(breedId) {
   if (!breedId) {
-    // Dacă nu există nicio rasă selectată, elimina informațiile despre pisică
     catInfo.innerHTML = '';
-    return Promise.resolve(); // Returnează o promisiune rezolvată pentru a continua lanțul de promisiuni
+    return Promise.resolve();
   }
 
   return fetchCatByBreed(breedId)
@@ -74,10 +64,11 @@ function handleCatRequest(breedId) {
       catInfo.classList.remove('loader');
       hideLoader();
     })
-    .catch(error => {
+    .catch(() => {
+      Notiflix.Notify.failure(
+        'Oops! Something went wrong! Try reloading the page!'
+      );
       hideLoader();
-      displayError();
-      throw error; // Propagă eroarea mai departe pentru gestionare ulterioară
     });
 }
 
@@ -86,7 +77,7 @@ function fillBreedSelect(breeds) {
   defaultOption.value = '';
   defaultOption.textContent = 'Select a breed';
 
-  breedSelect.innerHTML = ''; // Curăță opțiunile existente înainte de adăugare
+  breedSelect.innerHTML = '';
 
   breedSelect.appendChild(defaultOption);
 
@@ -99,7 +90,6 @@ function fillBreedSelect(breeds) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  hideError();
   catInfo.classList.add('loader');
   breedSelect.classList.add('loader');
 
@@ -109,12 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedBreedId = event.target.value;
     if (selectedBreedId !== undefined) {
       showLoader();
-      hideError(); // Ascunde mesajul de eroare
-      catInfo.innerHTML = ''; // Șterge informațiile despre pisică de la selecțiile anterioare
-      handleCatRequest(selectedBreedId)
-        .then(() => hideError())
-        .catch(() => displayError())
-        .finally(() => hideLoader());
+      catInfo.innerHTML = '';
+      handleCatRequest(selectedBreedId).finally(() => hideLoader());
     }
   });
 });
