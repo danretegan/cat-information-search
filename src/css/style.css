@@ -7,6 +7,13 @@ body {
   display: none;
 }
 
+.error-displayed {
+  display: block;
+  font-weight: bold;
+  color: red;
+  /* Alte stiluri pentru a formata mesajul de eroare */
+}
+
 /* Stiluri pentru containerul imaginii și textului */
 .cat-info {
   overflow: hidden; /* Asigură că containerul se mulează pe conținut */
