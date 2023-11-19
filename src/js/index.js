@@ -1,33 +1,27 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
+import Notiflix from 'notiflix';
 
 const breedSelect = document.querySelector('.breed-select');
 const loader = document.querySelector('.loader');
-const error = document.querySelector('.error');
 const catInfo = document.querySelector('.cat-info');
 
 function displayCatInfo(cat) {
-  catInfo.innerHTML = `
-    <img src="${cat[0].url}" alt="Cat Image">
-  `;
-  catInfo.classList.remove('loader');
+  const catImage = document.createElement('img');
+  catImage.src = cat[0].url;
+  catImage.alt = 'Cat Image';
+  catImage.onload = () => {
+    catInfo.appendChild(catImage);
+    catInfo.classList.remove('loader');
 
-  setTimeout(() => {
     const catDetails = document.createElement('div');
     catDetails.innerHTML = `
       <p><strong> ${cat[0].breeds[0].name} </strong></p>
       <p> ${cat[0].breeds[0].description}</p>
       <p><strong>Temperament:</strong> ${cat[0].breeds[0].temperament}</p>
     `;
+
     catInfo.appendChild(catDetails);
-  }, 500);
-}
-
-function displayError() {
-  error.classList.add('error-displayed');
-}
-
-function hideError() {
-  error.classList.remove('error-displayed');
+  };
 }
 
 function showLoader() {
@@ -44,48 +38,60 @@ function handleBreedsRequest() {
   fetchBreeds()
     .then(breeds => {
       if (breeds.length === 0) {
-        throw new Error('No breeds available');
+        Notiflix.Notify.failure('No breeds available');
+        hideLoader(); // Ascunde loader-ul în cazul în care nu există rase disponibile
+        return; // Opriți continuarea logicii în acest caz
       }
 
       fillBreedSelect(breeds);
 
       breedSelect.classList.remove('loader');
       hideLoader();
-      hideError();
     })
-    .catch(() => {
+    .catch(error => {
       hideLoader();
-      displayError();
+      Notiflix.Notify.failure(
+        'Oops! Breeds Request went wrong! Try reloading the page!'
+      );
+      console.error('Error fetching breeds information:', error);
     });
 }
 
 function handleCatRequest(breedId) {
   if (!breedId) {
     catInfo.innerHTML = '';
+    catInfo.classList.remove('loader');
     return Promise.resolve();
   }
 
+  showLoader();
+
   return fetchCatByBreed(breedId)
     .then(cat => {
-      displayCatInfo(cat);
+      if (cat.length === 0) {
+        catInfo.innerHTML = '';
+        Notiflix.Notify.failure('No cat information available for this breed');
+      } else {
+        displayCatInfo(cat);
+      }
       catInfo.classList.remove('loader');
-      hideLoader();
-      hideError();
+      hideLoader(); // Ascunde loader-ul chiar dacă nu există date despre pisică pentru rasa selectată
     })
     .catch(error => {
       hideLoader();
-      displayError();
-      throw error;
+      Notiflix.Notify.failure(
+        'Oops! Cat Request went wrong! Try reloading the page!'
+      );
+      console.error('Error fetching cat information:', error);
     });
 }
 
 function fillBreedSelect(breeds) {
+  breedSelect.innerHTML = '';
+
   const defaultOption = document.createElement('option');
   defaultOption.value = '';
   defaultOption.textContent = 'Select a breed';
-
-  breedSelect.innerHTML = '';
-
   breedSelect.appendChild(defaultOption);
 
   breeds.forEach(breed => {
@@ -97,7 +103,6 @@ function fillBreedSelect(breeds) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  hideError();
   catInfo.classList.add('loader');
   breedSelect.classList.add('loader');
 
@@ -107,12 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedBreedId = event.target.value;
     if (selectedBreedId !== undefined) {
       showLoader();
-      hideError();
       catInfo.innerHTML = '';
       handleCatRequest(selectedBreedId)
-        .then(() => hideError())
-        .catch(() => displayError())
-        .finally(() => hideLoader());
+        .then(() => hideLoader())
+        .catch(error => {
+          Notiflix.Notify.failure('Error handling cat request');
+          console.error('Error handling cat request', error);
+          hideLoader();
+        });
     }
   });
 });

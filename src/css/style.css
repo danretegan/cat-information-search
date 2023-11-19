@@ -2,14 +2,9 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.loader,
-.error {
+.loader
+ {
   display: none;
-}
-
-.error-displayed {
-  display: block;
-  /* Alte stiluri pentru a formata mesajul de eroare */
 }
 
 /* Stiluri pentru containerul imaginii și textului */
