@@ -7,6 +7,39 @@ body {
   display: none;
 }
 
+.loader {
+  margin: 0;
+  color: #000;
+  display: inline-block;
+  position: relative;
+  font-size: 28px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+.loader::after {
+  content: '';  
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  position: absolute;
+  bottom: 8px;
+  right: -5px;
+  box-sizing: border-box;
+  animation: animloader 500ms linear infinite;
+}
+
+@keyframes animloader {
+  0% {
+    box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 10px 0 black, 20px 0 rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 10px 0 black, 20px 0 black;
+  }
+}
+
 /* Stiluri pentru containerul imaginii și textului */
 .cat-info {
   overflow: hidden; /* Asigură că containerul se mulează pe conținut */
