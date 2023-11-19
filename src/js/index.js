@@ -11,7 +11,6 @@ function displayCatInfo(cat) {
   `;
   catInfo.classList.remove('loader');
 
-  // Așteaptă puțin înainte de a afișa detaliile pentru a oferi timp pentru încărcarea imaginii
   setTimeout(() => {
     const catDetails = document.createElement('div');
     catDetails.innerHTML = `
@@ -20,7 +19,7 @@ function displayCatInfo(cat) {
       <p><strong>Temperament:</strong> ${cat[0].breeds[0].temperament}</p>
     `;
     catInfo.appendChild(catDetails);
-  }, 500); // Un timp de așteptare de 0.5 secunde (500 milisecunde) - poate fi ajustat pentru performanță
+  }, 500);
 }
 
 function displayError() {
@@ -45,7 +44,6 @@ function handleBreedsRequest() {
   fetchBreeds()
     .then(breeds => {
       if (breeds.length === 0) {
-        // Tratează cazul în care nu există rase disponibile
         throw new Error('No breeds available');
       }
 
@@ -63,9 +61,8 @@ function handleBreedsRequest() {
 
 function handleCatRequest(breedId) {
   if (!breedId) {
-    // Dacă nu există nicio rasă selectată, elimina informațiile despre pisică
     catInfo.innerHTML = '';
-    return Promise.resolve(); // Returnează o promisiune rezolvată pentru a continua lanțul de promisiuni
+    return Promise.resolve();
   }
 
   return fetchCatByBreed(breedId)
@@ -73,11 +70,12 @@ function handleCatRequest(breedId) {
       displayCatInfo(cat);
       catInfo.classList.remove('loader');
       hideLoader();
+      hideError();
     })
     .catch(error => {
       hideLoader();
       displayError();
-      throw error; // Propagă eroarea mai departe pentru gestionare ulterioară
+      throw error;
     });
 }
 
@@ -86,7 +84,7 @@ function fillBreedSelect(breeds) {
   defaultOption.value = '';
   defaultOption.textContent = 'Select a breed';
 
-  breedSelect.innerHTML = ''; // Curăță opțiunile existente înainte de adăugare
+  breedSelect.innerHTML = '';
 
   breedSelect.appendChild(defaultOption);
 
@@ -109,8 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedBreedId = event.target.value;
     if (selectedBreedId !== undefined) {
       showLoader();
-      hideError(); // Ascunde mesajul de eroare
-      catInfo.innerHTML = ''; // Șterge informațiile despre pisică de la selecțiile anterioare
+      hideError();
+      catInfo.innerHTML = '';
       handleCatRequest(selectedBreedId)
         .then(() => hideError())
         .catch(() => displayError())

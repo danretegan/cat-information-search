@@ -2,8 +2,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-
-
 .loader,
 .error {
   display: none;
@@ -11,8 +9,6 @@ body {
 
 .error-displayed {
   display: block;
-  font-weight: bold;
-  color: red;
   /* Alte stiluri pentru a formata mesajul de eroare */
 }
 
