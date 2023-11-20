@@ -22,11 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
         breedSelectElement.appendChild(optionElement);
       });
 
-      const slimBreedSelect = new SlimSelect({
+      new SlimSelect({
         select: '#breed-select',
-        placeholder: 'Select a breed',
-        allowDeselect: true,
-        alwaysOn: false,
+        settings: {
+          alwaysOpen: false,
+          placeholderText: 'Select a breed',
+        },
       });
 
       loader.style.display = 'none'; // Ascunde loader-ul după ce s-au încărcat datele
