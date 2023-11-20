@@ -1,116 +1,78 @@
+import SlimSelect from 'slim-select';
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
-import Notiflix from 'notiflix';
 
-const breedSelect = document.querySelector('.breed-select');
-const loader = document.querySelector('.loader');
-const catInfo = document.querySelector('.cat-info');
+document.addEventListener('DOMContentLoaded', () => {
+  const breedSelectElement = document.getElementById('breed-select');
+  const loader = document.querySelector('.loader');
+  const catInfo = document.querySelector('.cat-info');
 
-function displayCatInfo(cat) {
-  const catImage = document.createElement('img');
-  catImage.src = cat[0].url;
-  catImage.alt = 'Cat Image';
-  catImage.onload = () => {
-    catInfo.appendChild(catImage);
-    const catDetails = document.createElement('div');
-    catDetails.innerHTML = `
-      <p><strong> ${cat[0].breeds[0].name} </strong></p>
-      <p> ${cat[0].breeds[0].description}</p>
-      <p><strong>Temperament:</strong> ${cat[0].breeds[0].temperament}</p>
-    `;
-    catInfo.appendChild(catDetails);
-    hideLoader(); // Ascunde Loader-ul după afișarea datelor pisicii
-  };
-}
-
-function showLoader() {
-  loader.style.display = 'inline-block';
-}
-
-function hideLoader() {
-  loader.style.display = 'none';
-}
-
-function handleBreedsRequest() {
-  breedSelect.style.display = 'none'; // Ascunde selectorul de rase inițial
-
-  showLoader();
+  loader.style.display = 'inline-block'; // Afișează loader-ul la început
 
   fetchBreeds()
     .then(breeds => {
-      if (breeds.length === 0) {
-        Notiflix.Notify.failure('No breeds available');
-        return;
-      }
+      const breedOptions = breeds.map(breed => ({
+        text: breed.name,
+        value: breed.id,
+      }));
 
-      fillBreedSelect(breeds);
-      breedSelect.style.display = 'block'; // Afișează selectorul de rase după umplerea acestuia
+      breedOptions.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option.value;
+        optionElement.textContent = option.text;
+        breedSelectElement.appendChild(optionElement);
+      });
+
+      const slimBreedSelect = new SlimSelect({
+        select: '#breed-select',
+        placeholder: 'Select a breed',
+        allowDeselect: true,
+        alwaysOn: false,
+      });
+
+      loader.style.display = 'none'; // Ascunde loader-ul după ce s-au încărcat datele
+
+      breedSelectElement.addEventListener('change', event => {
+        const selectedBreedId = event.target.value;
+
+        if (selectedBreedId) {
+          loader.style.display = 'inline-block'; // Afișează loader-ul la selectarea unei rase de pisici
+          catInfo.style.display = 'none'; // Ascunde informațiile despre pisică la selectarea unei rase de pisici
+
+          fetchCatByBreed(selectedBreedId)
+            .then(cat => {
+              displayCatInfo(cat);
+            })
+            .catch(error => {
+              console.error('Error fetching cat information:', error);
+              loader.style.display = 'none'; // Ascunde loader-ul în caz de eroare
+            });
+        }
+      });
     })
     .catch(error => {
-      Notiflix.Notify.failure(
-        'Oops! Breeds Request went wrong! Try reloading the page!'
-      );
-      console.error('Error fetching breeds information:', error);
-    })
-    .finally(() => {
-      hideLoader(); // Ascunde Loader-ul după finalizarea cererii, indiferent de rezultat
+      console.error('Error fetching breeds:', error);
+      loader.style.display = 'none'; // Ascunde loader-ul în caz de eroare
     });
-}
 
-function handleCatRequest(breedId) {
-  if (!breedId) {
-    catInfo.innerHTML = '';
-    return Promise.resolve();
+  function displayCatInfo(cat) {
+    const catImage = document.createElement('img');
+    catImage.src = cat[0].url;
+    catImage.alt = 'Cat Image';
+
+    catImage.onload = () => {
+      catInfo.innerHTML = '';
+      catInfo.appendChild(catImage);
+
+      const catDetails = document.createElement('div');
+      catDetails.innerHTML = `
+        <p><strong>${cat[0].breeds[0].name}</strong></p>
+        <p>${cat[0].breeds[0].description}</p>
+        <p><strong>Temperament:</strong> ${cat[0].breeds[0].temperament}</p>
+      `;
+      catInfo.appendChild(catDetails);
+
+      catInfo.style.display = 'block'; // Afișează informațiile despre pisică
+      loader.style.display = 'none'; // Ascunde loader-ul după ce s-au încărcat informațiile
+    };
   }
-
-  showLoader();
-
-  return fetchCatByBreed(breedId)
-    .then(cat => {
-      if (cat.length === 0) {
-        catInfo.innerHTML = '';
-        Notiflix.Notify.failure('No cat information available for this breed');
-      } else {
-        displayCatInfo(cat);
-      }
-    })
-    .catch(error => {
-      Notiflix.Notify.failure(
-        'Oops! Cat Request went wrong! Try reloading the page!'
-      );
-      console.error('Error fetching cat information:', error);
-    })
-    .finally(() => {
-      hideLoader(); // Ascunde Loader-ul după finalizarea cererii, indiferent de rezultat
-      catInfo.classList.remove('loader'); // Elimină clasa loader de pe zona de informații a pisicii
-    });
-}
-
-function fillBreedSelect(breeds) {
-  breedSelect.innerHTML = '';
-
-  const defaultOption = document.createElement('option');
-  defaultOption.value = '';
-  defaultOption.textContent = 'Select a breed';
-  breedSelect.appendChild(defaultOption);
-
-  breeds.forEach(breed => {
-    const option = document.createElement('option');
-    option.value = breed.id;
-    option.textContent = breed.name;
-    breedSelect.appendChild(option);
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  catInfo.classList.add('loader'); // Adaugă clasa loader pe zona de informații a pisicii
-
-  handleBreedsRequest();
-
-  breedSelect.addEventListener('change', event => {
-    const selectedBreedId = event.target.value;
-    if (selectedBreedId !== undefined) {
-      catInfo.innerHTML = ''; // Șterge conținutul zonei de informații a pisicii înainte de a face o nouă cerere
-      handleCatRequest(selectedBreedId);
-    }
-  });
 });

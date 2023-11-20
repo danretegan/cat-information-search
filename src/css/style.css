@@ -1,68 +1,76 @@
 body {
-  font-family: Arial, sans-serif;
-}
-
-.loader
- {
-  display: none;
-}
-
-.loader {
-  margin: 0;
-  color: #000;
-  display: inline-block;
-  position: relative;
-  font-size: 28px;
-  font-family: Arial, Helvetica, sans-serif;
-  box-sizing: border-box;
-}
-.loader::after {
-  content: '';  
-  width: 5px;
-  height: 5px;
-  background: currentColor;
-  position: absolute;
-  bottom: 8px;
-  right: -5px;
-  box-sizing: border-box;
-  animation: animloader 500ms linear infinite;
-}
-
-@keyframes animloader {
-  0% {
-    box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
+    font-family: Arial, sans-serif;
   }
-  50% {
-    box-shadow: 10px 0 black, 20px 0 rgba(255, 255, 255, 0);
+
+  .loader
+   {
+    display: none;
   }
-  100% {
-    box-shadow: 10px 0 black, 20px 0 black;
+  
+  .loader {
+    margin: 0;
+    color: orangered;
+    display: inline-block;
+    position: relative;
+    font-size: 28px;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
   }
-}
+  .loader::after {
+    content: '';  
+    width: 5px;
+    height: 5px;
+    background: currentColor;
+    position: absolute;
+    bottom: 8px;
+    right: -5px;
+    box-sizing: border-box;
+    animation: animloader 500ms linear infinite;
+  }
+  
+  @keyframes animloader {
+    0% {
+      box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
+    }
+    50% {
+      box-shadow: 10px 0 black, 20px 0 rgba(255, 255, 255, 0);
+    }
+    100% {
+      box-shadow: 10px 0 black, 20px 0 black;
+    }
+  }
 
-/* Stiluri pentru containerul imaginii și textului */
-.cat-info {
-  overflow: hidden; /* Asigură că containerul se mulează pe conținut */
-}
-
-/* Stiluri pentru imagine */
-.cat-info img {
-  float: left; /* Aliniază imaginea la stânga */
-  max-width: 300px; /* Definește lățimea maximă a imaginii */
-  height: auto; /* Permite imaginii să își mențină proporțiile */
-  border: 1px solid #ccc; /* Adaugă un cadru de 1px solid gri în jurul imaginii */
-  border-radius: 5px; /* Rotunjirea marginilor imaginii */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Adaugă umbrire */
-  margin: 10px 20px 10px 0; /* Spațiere pentru imagine (sus, dreapta, jos, stânga) */
-}
-
-/* Stiluri pentru paragrafele cu informații despre pisică */
-.cat-info p {
-  font-size: 16px; /* Mărimea fontului pentru informații */
-  margin-bottom: 8px; /* Spațiere între paragrafe */
-}
-
-.cat-info p strong {
-  font-weight: bold; /* Stilizare pentru etichetele de text bold */
-}
+  #breed-select {
+    display: none;
+  }
+  .ss-main {
+    width: 300px;
+  }
+  
+  /* Stiluri pentru containerul imaginii și textului */
+  .cat-info {
+    overflow: hidden; /* Asigură că containerul se mulează pe conținut */
+  }
+  
+  /* Stiluri pentru imagine */
+  .cat-info img {
+    float: left; /* Aliniază imaginea la stânga */
+    max-width: 300px; /* Definește lățimea maximă a imaginii */
+    height: auto; /* Permite imaginii să își mențină proporțiile */
+    border: 1px solid #ccc; /* Adaugă un cadru de 1px solid gri în jurul imaginii */
+    border-radius: 5px; /* Rotunjirea marginilor imaginii */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Adaugă umbrire */
+    margin: 10px 20px 10px 0; /* Spațiere pentru imagine (sus, dreapta, jos, stânga) */
+  }
+  
+  /* Stiluri pentru paragrafele cu informații despre pisică */
+  .cat-info p {
+    font-size: 16px; /* Mărimea fontului pentru informații */
+    margin-bottom: 8px; /* Spațiere între paragrafe */
+  }
+  
+  .cat-info p strong {
+    font-weight: bold; /* Stilizare pentru etichetele de text bold */
+    color: orangered;
+  }
 
