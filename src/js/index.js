@@ -1,11 +1,11 @@
 import SlimSelect from 'slim-select';
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const breedSelectElement = document.getElementById('breed-select');
-  const loader = document.querySelector('.loader');
-  const catInfo = document.querySelector('.cat-info');
+const breedSelectElement = document.getElementById('breed-select');
+const loader = document.querySelector('.loader');
+const catInfo = document.querySelector('.cat-info');
 
+document.addEventListener('DOMContentLoaded', () => {
   loader.style.display = 'inline-block'; // Afișează loader-ul la început
 
   fetchBreeds()
